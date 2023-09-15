@@ -6,7 +6,9 @@ tar_option_set(
   packages =
     c("targets",
       "data.table",
-      "lubridate"
+      "lubridate",
+      "mgcv",
+      "splines"
     )
 )
 
@@ -14,7 +16,7 @@ list(
   ### LOAD DATA ####
   #### dat ####
   tar_target(
-    dat,
+    dat_suicide,
     load_dat(
       dir
     )
@@ -22,27 +24,55 @@ list(
   ,
   #### pop ####
   tar_target(
-    pop,
+    dat_pop,
     load_pop(
       dir
     )
   )
   ,
-  ### DESCRIPTIVE STATS ####
-  #### desc_heat ####
+  ### MERGE ####
+  #### mrg_dat_pop ####
   tar_target(
-    desc_heat,
-    do_desc_heat(
-      dat
+    mrg_dat_pop,
+    do_mrg_dat_pop(
+      dat_suicide,
+      dat_pop
     )
   )
   ,
-  #### desc_suicide ####
+  ### DESCRIPTIVE STATS ####
+  #### calc_descriptive ####
   tar_target(
-    desc_desc_suicide,
-    do_desc_suicide(
-      dat,
-      pop
+    calc_descriptive,
+    do_desc(
+      mrg_dat_pop
+    )
+  )
+  ,
+  ### PREP FOR MODELING ####
+  #### anomaly ####
+  tar_target(
+    anomaly,
+    do_tmax_anomaly(
+      mrg_dat_pop
+    )
+  )
+  ,
+  ### MODEL ####
+  #### calc_gam ####
+  tar_target(
+    calc_gam,
+    do_calc_gam(
+      anomaly
+    )
+  )
+  ,
+  ### PLOT ####
+  #### plot_desc ####
+  tar_target(
+    plot_desc,
+    do_plot_desc(
+      calc_descriptive
     )
   )
 )

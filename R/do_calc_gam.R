@@ -53,61 +53,66 @@ anomaly$TmaxFemales10_29 <- ifelse(anomaly$age_group == '10-29' & anomaly$sex ==
 anomaly$TmaxFemales30_54 <- ifelse(anomaly$age_group == '30-54' & anomaly$sex == 'F', anomaly$logTmaxAnomaly, 0)
 anomaly$TmaxFemales55plus <- ifelse(anomaly$age_group == '55+' & anomaly$sex == 'F', anomaly$logTmaxAnomaly, 0)
 
-#disaggregated :
+# states list
+states <- setdiff(unique(anomaly$state), "Other")
 
-tmaxanomDisaggregatedModel <- gam(
-  deaths ~ s(month, k=4, fx=T, bs = 'cc') +
-    s(TmaxMales10_29) +
-    s(TmaxMales30_54) +
-    s(TmaxMales55plus) +
-    s(TmaxFemales10_29) +
-    s(TmaxFemales30_54) +
-    s(TmaxFemales55plus) +
-    logTmaxAnomaly +
-    age_group +
-    state +
-    sex +
-    age_group * sex * ns(year,3) +
-    offset(log(pop)),
-  data=anomaly,
-  family=poisson
-)
-
-summary(tmaxanomDisaggregatedModel)
-
-png('model.png',res=200,width = 1000, height = 1600)
-par(mfcol=c(3,2),mar=c(4,5,2,1), cex = .5)
-
-# For Tmax with male age groups
-plot(tmaxanomDisaggregatedModel, select=2, se=T, shade=TRUE, shade.col='grey', ylab = 'log Relative Risk', xlab = 'logTmaxAnomaly')
-abline(0,0)
-title('TmaxMales10_29')
-
-plot(tmaxanomDisaggregatedModel, select=3, se=T, shade=TRUE, shade.col='grey', ylab = 'log Relative Risk', xlab = 'logTmaxAnomaly')
-abline(0,0)
-title('TmaxMales30_54')
-
-plot(tmaxanomDisaggregatedModel, select=4, se=T, shade=TRUE, shade.col='grey', ylab = 'log Relative Risk', xlab = 'logTmaxAnomaly')
-abline(0,0)
-title('TmaxMales55plus')
-
-# For Tmax with female age groups
-plot(tmaxanomDisaggregatedModel, select=5, se=T, shade=TRUE, shade.col='grey', ylab = 'log Relative Risk', xlab = 'logTmaxAnomaly')
-abline(0,0)
-title('TmaxFemales10_29')
-
-plot(tmaxanomDisaggregatedModel, select=6, se=T, shade=TRUE, shade.col='grey', ylab = 'log Relative Risk', xlab = 'logTmaxAnomaly')
-abline(0,0)
-title('TmaxFemales30_54')
-
-plot(tmaxanomDisaggregatedModel, select=7, se=T, shade=TRUE, shade.col='grey', ylab = 'log Relative Risk', xlab = 'logTmaxAnomaly')
-abline(0,0)
-title('TmaxFemales55plus')
-
-dev.off()
-
-
-
-
+for (state_name in states) {
+  
+  # subset
+  state_data <- subset(anomaly, state == state_name)
+  
+  # gam
+  tmaxanomDisaggregatedModel <- gam(
+    deaths ~ s(month, k=4, fx=T, bs = 'cc') +
+      s(TmaxMales10_29) +
+      s(TmaxMales30_54) +
+      s(TmaxMales55plus) +
+      s(TmaxFemales10_29) +
+      s(TmaxFemales30_54) +
+      s(TmaxFemales55plus) +
+      logTmaxAnomaly +
+      age_group +
+      sex +
+      age_group * sex * ns(year,3) +
+      offset(log(pop)),
+    data=state_data,
+    family=poisson
+  )
+  
+  
+  png_filename <- paste0('model_', state_name, '.png')
+  png(png_filename, res=200, width=1000, height=1600)
+  
+  par(mfcol=c(3,2), mar=c(4,5,2,1), cex=0.5)
+  
+  # plot
+  
+  # For TmaxM ages
+  plot(tmaxanomDisaggregatedModel, select=2, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='logTmaxAnomaly')
+  abline(0,0)
+  title('TmaxMales10_29')
+  
+  plot(tmaxanomDisaggregatedModel, select=3, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='logTmaxAnomaly')
+  abline(0,0)
+  title('TmaxMales30_54')
+  
+  plot(tmaxanomDisaggregatedModel, select=4, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='logTmaxAnomaly')
+  abline(0,0)
+  title('TmaxMales55plus')
+  
+  # For Tmax f and ages
+  plot(tmaxanomDisaggregatedModel, select=5, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='logTmaxAnomaly')
+  abline(0,0)
+  title('TmaxFemales10_29')
+  
+  plot(tmaxanomDisaggregatedModel, select=6, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='logTmaxAnomaly')
+  abline(0,0)
+  title('TmaxFemales30_54')
+  
+  plot(tmaxanomDisaggregatedModel, select=7, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='logTmaxAnomaly')
+  abline(0,0)
+  title('TmaxFemales55plus')
+  
+  dev.off()
 
 }

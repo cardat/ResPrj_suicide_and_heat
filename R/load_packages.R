@@ -1,7 +1,9 @@
 load_packages <- function(do_it = T){
   pkgs <- c("targets",
             "data.table",
-            "lubridate")
+            "lubridate",
+            "mgcv",
+            "splines")
   ipak <- function(pkg){
     new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
     if (length(new.pkg)) 

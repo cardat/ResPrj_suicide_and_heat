@@ -59,10 +59,18 @@ list(
   )
   ,
   ### MODEL ####
-  #### calc_gam ####
+  #### gam ####
   tar_target(
-    calc_gam,
-    do_calc_gam(
+    gam,
+    do_gam(
+      anomaly
+    )
+  )
+  ,
+  #### gam_disagg ####
+  tar_target(
+    gam_disagg,
+    do_gam_disagg(
       anomaly
     )
   )

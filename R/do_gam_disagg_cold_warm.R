@@ -11,7 +11,7 @@ do_gam_disagg_cold_warm <- function(
   
   for(state_iter in unique_states){
     
-    anomaly_state <- anomaly[anomaly$state == state_iter,]
+    anomaly_state <- anomaly[anomaly$adjusted_state == state_iter,]
     
     # interaction vars for age_group, sex
     anomaly_state$TmaxMales10_29 <- ifelse(
@@ -47,7 +47,7 @@ do_gam_disagg_cold_warm <- function(
       family = poisson
     )
     
-    gam_disagg_states[[state_iter]] <- list(
+    gam_disagg_cold_warm[[state_iter]] <- list(
       model = gam_disagg,
       data = anomaly_state  # Store the data subset as well for future reference
     )

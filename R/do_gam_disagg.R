@@ -3,16 +3,16 @@ do_gam_disagg <- function(
 ){
 # interaction vars for age_group, sex
 anomaly$TmaxMales10_29 <- ifelse(
-  anomaly$age_group == '10-29' & anomaly$sex == 'M', anomaly$tmax_anomaly, 0)
+  anomaly$age_group == '10–29' & anomaly$sex == 'M', anomaly$tmax_anomaly, 0)
 anomaly$TmaxMales30_54 <- ifelse(
-  anomaly$age_group == '30-54' & anomaly$sex == 'M', anomaly$tmax_anomaly, 0)
+  anomaly$age_group == '30–54' & anomaly$sex == 'M', anomaly$tmax_anomaly, 0)
 anomaly$TmaxMales55plus <- ifelse(
   anomaly$age_group == '55+' & anomaly$sex == 'M', anomaly$tmax_anomaly, 0)
 
 anomaly$TmaxFemales10_29 <- ifelse(
-  anomaly$age_group == '10-29' & anomaly$sex == 'F', anomaly$tmax_anomaly, 0)
+  anomaly$age_group == '10–29' & anomaly$sex == 'F', anomaly$tmax_anomaly, 0)
 anomaly$TmaxFemales30_54 <- ifelse(
-  anomaly$age_group == '30-54' & anomaly$sex == 'F', anomaly$tmax_anomaly, 0)
+  anomaly$age_group == '30–54' & anomaly$sex == 'F', anomaly$tmax_anomaly, 0)
 anomaly$TmaxFemales55plus <- ifelse(
   anomaly$age_group == '55+' & anomaly$sex == 'F', anomaly$tmax_anomaly, 0)
 
@@ -26,7 +26,7 @@ gam_disagg <- gam(
     s(TmaxFemales55plus, k=3) +
     age_group * sex * ns(year,3) +
     state +
-    s(month, k=4, fx=T, bs = 'cc') +
+    s(month, k=3, fx=T, bs = 'cc') +
     offset(log(pop)),
   data = anomaly,
   family = poisson

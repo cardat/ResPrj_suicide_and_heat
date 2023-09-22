@@ -30,6 +30,14 @@ list(
     )
   )
   ,
+  #### dat ####
+  tar_target(
+    dat_temp,
+    load_temp(
+      dir
+    )
+  )
+  ,
   ### MERGE ####
   #### mrg_dat_pop ####
   tar_target(
@@ -54,7 +62,8 @@ list(
   tar_target(
     anomaly,
     do_tmax_anomaly(
-      mrg_dat_pop
+      mrg_dat_pop,
+      dat_temp
     )
   )
   ,
@@ -71,6 +80,22 @@ list(
   tar_target(
     gam_disagg,
     do_gam_disagg(
+      anomaly
+    )
+  )
+  ,
+  #### gam_disagg_states ####
+  tar_target(
+    gam_disagg_states,
+    do_gam_disagg_states(
+      anomaly
+    )
+  )
+  ,
+  #### gam_disagg_cold_warm ####
+  tar_target(
+    gam_disagg_cold_warm,
+    do_gam_disagg_cold_warm(
       anomaly
     )
   )

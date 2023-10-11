@@ -76,6 +76,14 @@ list(
     )
   )
   ,
+  #### gam_sex ####
+  tar_target(
+    gam_sex,
+    do_gam_sex(
+      anomaly
+    )
+  )
+  ,
   #### gam_disagg ####
   tar_target(
     gam_disagg,
@@ -106,6 +114,16 @@ list(
     plot_desc,
     do_plot_desc(
       calc_descriptive
+    )
+  )
+  ,
+  ### TABLES ####
+  #### tab_desc ####
+  tar_target(
+    tab_desc,
+    do_tab_desc(
+      calc_descriptive,
+      anomaly
     )
   )
 )

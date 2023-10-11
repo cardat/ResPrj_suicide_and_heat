@@ -12,13 +12,6 @@ dat_temp[, month := as.integer(month)]
 dat_temp[, year := as.integer(year)]
 dat_temp[, tmean := (tmax + tmin)/2]
 
-dat_temp <- dat_temp[
-  year %in% 1950:2018, .(
-    monthly_tmax_avg = mean(
-      tmax, na.rm=TRUE)
-  ),
-  by = .(state, month)]
-
 return(dat_temp)
 }
 

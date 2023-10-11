@@ -33,35 +33,35 @@ gam_disagg <- gam(
 )
 
 
-png("manuscript/01_figures/fig_all_states_3knots.png", res=200, width=1000, height=1600)
+png("manuscript/01_figures/fig_all_states.png", res=200, width=1000, height=1600)
 
 par(mfcol=c(3,2), mar=c(4,5,2,1), cex=0.5)
 
 # For TmaxM ages
-plot(gam_disagg, select=2, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='TmaxAnomaly')
-abline(0,0)
-title('TmaxMales10_29')
+plot(gam_disagg, select=1, se=T, shade=TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red",  ylab='log Relative Risk', xlab='TmaxAnomaly')
+abline(h=0, col="black", lty=2)
+title('Males 10–29')
 
-plot(gam_disagg, select=3, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='TmaxAnomaly')
-abline(0,0)
-title('TmaxMales30_54')
+plot(gam_disagg, select=2, se=T, shade=TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red",  ylab='log Relative Risk', xlab='TmaxAnomaly')
+abline(h=0, col="black", lty=2)
+title('Males 30–54')
 
-plot(gam_disagg, select=4, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='TmaxAnomaly')
-abline(0,0)
-title('TmaxMales55plus')
+plot(gam_disagg, select=3, se=T, shade=TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red",  ylab='log Relative Risk', xlab='TmaxAnomaly')
+abline(h=0, col="black", lty=2)
+title('Males 55+')
 
 # For Tmax f and ages
-plot(gam_disagg, select=5, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='TmaxAnomaly')
-abline(0,0)
-title('TmaxFemales10_29')
+plot(gam_disagg, select=4, se=T, shade=TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red",  ylab='log Relative Risk', xlab='TmaxAnomaly')
+abline(h=0, col="black", lty=2)
+title('Females 10–29')
 
-plot(gam_disagg, select=6, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='TmaxAnomaly')
-abline(0,0)
-title('TmaxFemales30_54')
+plot(gam_disagg, select=5, se=T, shade=TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red",  ylab='log Relative Risk', xlab='TmaxAnomaly')
+abline(h=0, col="black", lty=2)
+title('Females 30–54')
 
-plot(gam_disagg, select=7, se=T, shade=TRUE, shade.col='grey', ylab='log Relative Risk', xlab='TmaxAnomaly')
-abline(0,0)
-title('TmaxFemales55plus')
+plot(gam_disagg, select=6, se=T, shade=TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red",  ylab='log Relative Risk', xlab='TmaxAnomaly')
+abline(h=0, col="black", lty=2)
+title('Females 55+')
 
 dev.off()
 

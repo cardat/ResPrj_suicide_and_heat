@@ -22,13 +22,13 @@ par(mar = c(4, 4, 1, 1), # c(bottom, left, top, right)
     cex.axis = 0.8,
     cex.lab = 1)
 plot(gam, select = 2,
-     shade = TRUE, shade.col = "grey", seWithMean = TRUE,
+     shade = TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red", lwd=2, seWithMean = TRUE,
      ylab = 'log Relative Risk',xlab='Month')
 abline(h=0, lty=2, col="black")
 abline(v=9, lty=2, col="black") # September
 abline(v=11, lty=2, col="black") # November
-y_position <- -0.1 # Adjust this value based on where you'd like the text to appear vertically
-text(x = 10, y = y_position, labels = "Spring", col = "black")
+# Place the text at a higher position with increased font size (cex)
+text(x = 10, y = -0.025, labels = "Spring", col = "black")  
 dev.off()
 
 return(gam)

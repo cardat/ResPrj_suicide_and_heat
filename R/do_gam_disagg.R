@@ -1,7 +1,9 @@
 do_gam_disagg <- function(
     anomaly
 ){
-# interaction vars for age_group, sex
+#tar_load(anomaly)
+  
+  # interaction vars for age_group, sex
 anomaly$TmaxMales10_29 <- ifelse(
   anomaly$age_group == '10–29' & anomaly$sex == 'M', anomaly$tmax_anomaly, 0)
 anomaly$TmaxMales30_54 <- ifelse(

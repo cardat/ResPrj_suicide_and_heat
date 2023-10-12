@@ -16,6 +16,8 @@ anomaly$time <- as.numeric(anomaly$time)
 anomaly$age_group <- as.factor(anomaly$age_group)
 anomaly$sex <- as.factor(anomaly$sex)
 
+anomaly$tmax_anomaly[anomaly$tmax_anomaly < 0] <- 0
+
 # create vars for age_group, sex
 anomaly$TmaxMales10_29 <- ifelse(
   anomaly$age_group == '10–29' & anomaly$sex == 'M', anomaly$tmax_anomaly, 0)

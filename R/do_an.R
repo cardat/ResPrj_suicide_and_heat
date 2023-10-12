@@ -11,6 +11,8 @@ attributable <- subset(anomaly,
                        state == "NSW" &
                        sex =="M" & age_group == '55+')
 
+
+
 # table(attributable$state)
 
 attributable$deathsAttributable <-
@@ -39,7 +41,8 @@ estOut <- attributable[, .(
 )]
 
 estOut$deathsAttributable
-# [1] 25.90695
+# [1] 25.90695 - not setting negative tmax_anomaly to zero
+# [1] 38.09349 - setting negative tmax_anomaly to zero
 round(estOut$deathsAttributable / 13,2)
 # [1] 1.992843
 round(estOut$deathsAttributableLower / 13,2)

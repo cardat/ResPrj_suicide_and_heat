@@ -1,3 +1,8 @@
+do_an <- function(
+    tmaxglm
+){
+  
+
 # Extract coefficients
 glmest<-summary(tmaxglm)$coefficients
 
@@ -7,23 +12,36 @@ betai <- glmest[which(row.names(glmest)=='TmaxMales55plus'),1]
 sei <- glmest[which(row.names(glmest)=='TmaxMales55plus'),2]
 
 # an only for  TmaxMales55plus NSW
-attributable <- subset(anomaly, 
+attributable <- subset(anomaly,
                        state == "NSW" &
                        sex =="M" & age_group == '55+')
 
+# an only for  TmaxMales55plus QLD
+attributable <- subset(anomaly,
+                       state == "QLD" &
+                         sex =="M" & age_group == '55+')
 
+### NT ####
+# Retrieve beta for 'TmaxFemales30_54'
+betai <- glmest[which(row.names(glmest)=='TmaxFemales30_54'),1]
+# Retrieve the standard error of the estimated coefficient for 'TmaxFemales30_54'
+sei <- glmest[which(row.names(glmest)=='TmaxFemales30_54'),2]
+# an only for  TmaxFemales30_54 NSW
+attributable <- subset(anomaly,
+                       state == "NT" &
+                         sex =="F" & age_group == '55+')
 
 # table(attributable$state)
 
 attributable$deathsAttributable <-
-  (deaths/pop) * (exp(betai * tmax_anomaly) - 1) * pop
+  (attributable$deaths/attributable$pop) * (exp(betai * attributable$tmax_anomaly) - 1) * attributable$pop
 
 #LCI
 attributable$deathsAttributableLower <-
-  (deaths/pop) * (exp((betai - sei * 1.96) *  tmax_anomaly) - 1) * pop
+  (attributable$deaths/attributable$pop) * (exp((betai - sei * 1.96) *  attributable$tmax_anomaly) - 1) * attributable$pop
 #UCI
 attributable$deathsAttributableUpper <-
-  (deaths/pop) * (exp((betai + sei * 1.96) * tmax_anomaly) - 1) * pop
+  (attributable$deaths/attributable$pop) * (exp((betai + sei * 1.96) * attributable$tmax_anomaly) - 1) * attributable$pop
 
 summaryAttributable <- attributable[, .(
   deathsAttributable = sum(deathsAttributable),
@@ -45,9 +63,11 @@ estOut$deathsAttributable
 # [1] 38.09349 - setting negative tmax_anomaly to zero
 round(estOut$deathsAttributable / 13,2)
 # [1] 1.992843
-round(estOut$deathsAttributableLower / 13,2)
+estOut$deathsAttributableLower
 # [1] -0.6176333
-round(estOut$deathsAttributableUpper / 13,2)
+estOut$deathsAttributableUpper
 # [1] 4.757215
 
 # The predicted number of male suicides aged 55+ per annum associated with temperature anomaly over our study period was 1.99 (95%CI -0.62 to 4.76)
+
+}

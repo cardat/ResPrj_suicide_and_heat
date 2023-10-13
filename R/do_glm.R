@@ -1,3 +1,9 @@
+do_glm <- function(
+    anomaly
+){
+  
+
+
 # tar_load(anomaly)
 
 # set up formats
@@ -35,13 +41,13 @@ anomaly$TmaxFemales55plus <- ifelse(
 
 # > summary(gam_disagg)
 # Approximate significance of smooth terms:
-#                        edf Ref.df Chi.sq  p-value    
-# s(TmaxMales10_29)    1.162  1.297  0.131    0.774    
-# s(TmaxMales30_54)    1.000  1.001  0.028    0.867    
-# s(TmaxMales55plus)   1.001  1.002  2.010    0.157    
-# s(TmaxFemales10_29)  1.082  1.157  2.054    0.158    
-# s(TmaxFemales30_54)  1.001  1.002  0.252    0.617    
-# s(TmaxFemales55plus) 1.001  1.002  2.039    0.154    
+#                        edf Ref.df Chi.sq  p-value
+# s(TmaxMales10_29)    1.162  1.297  0.131    0.774
+# s(TmaxMales30_54)    1.000  1.001  0.028    0.867
+# s(TmaxMales55plus)   1.001  1.002  2.010    0.157
+# s(TmaxFemales10_29)  1.082  1.157  2.054    0.158
+# s(TmaxFemales30_54)  1.001  1.002  0.252    0.617
+# s(TmaxFemales55plus) 1.001  1.002  2.039    0.154
 # s(month)             2.000  2.000 43.903 2.93e-10 ***
 #   ---
 
@@ -50,7 +56,7 @@ anomaly$TmaxFemales55plus <- ifelse(
 # could this indicate that linear terms would suffice?
 
 tmaxglm <- glm(
-  deaths ~ 
+  deaths ~
     sin(timevar*2*pi) + cos(timevar*2*pi) # capture periodic patterns
     + TmaxMales10_29
     + TmaxMales30_54
@@ -62,7 +68,7 @@ tmaxglm <- glm(
     + state
     + sex
     + age_group*sex*ns(year,3)
-    + offset(log(pop)), 
+    + offset(log(pop)),
   data=anomaly,
   family=poisson)
 
@@ -81,5 +87,8 @@ Rsquared.glm.gsm <- function(o) {
 
 Rsquared.glm.gsm(tmaxglm)
 # good fit:
-# pseudo.Rsquared 
-# 0.9814214 
+# pseudo.Rsquared
+# 0.9814214
+
+retunr(tmaxglm)
+}

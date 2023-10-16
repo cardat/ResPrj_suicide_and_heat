@@ -52,7 +52,7 @@ anomaly$TmaxFemales55plus <- ifelse(
 #   ---
 
 
-## question to ivan: given that smoothed terms are not sificant (except month),
+## question to ivan: given that smoothed terms are not significant (except month),
 # could this indicate that linear terms would suffice?
 
 tmaxglm <- glm(

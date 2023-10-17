@@ -23,5 +23,7 @@ anomaly[, tmax_anomaly := tmax - monthly_tmax_avg]
 # exclude offshore aussie
 anomaly <- anomaly[state != "Other"]
 
+anomaly$tmax_anomaly[anomaly$tmax_anomaly < 0] <- 0
+
 return(anomaly)
 }

@@ -1,8 +1,7 @@
-#  deprecated - not using
-
 # tar_load(anomaly)
 # tar_load(gam_disagg)
 # 
+# anomaly$tmax_anomaly[anomaly$tmax_anomaly < 0] <- 0
 # 
 # # Subset the anomaly data to include only specific rows
 # nsw_55plus_male <- anomaly[
@@ -16,10 +15,8 @@
 #                       cases = nsw_55plus_male$deaths,      # This is the actual outcome data
 #                       model = gam_disagg,                  # This is the fitted model
 #                       exposure_var = c("s(TmaxMales55plus).1", "s(TmaxMales55plus).2"),  # These are the names of the coefficients in the model corresponding to the exposure variable
-#                       type = "an",
-#                       tot = TRUE,
-#                       sim = TRUE,
-#                       nsim = 5000)
+#                       type = "af",
+#                       tot = TRUE)
 # 
 # qld_55plus_male <- anomaly[
 #   anomaly$age_group == '55+' &
@@ -30,10 +27,8 @@
 #                       cases = qld_55plus_male$deaths,      # This is the actual outcome data
 #                       model = gam_disagg,                  # This is the fitted model
 #                       exposure_var = c("s(TmaxMales55plus).1", "s(TmaxMales55plus).2"),  # These are the names of the coefficients in the model corresponding to the exposure variable
-#                       type = "an",
-#                       tot = TRUE,
-#                       sim = TRUE,
-#                       nsim = 5000)
+#                       type = "af",
+#                       tot = TRUE)
 # 
 # nt_30_54_female <- anomaly[
 #   anomaly$age_group == '30–54' &
@@ -44,20 +39,9 @@
 #                          cases = nt_30_54_female$deaths,      # This is the actual outcome data
 #                          model = gam_disagg,                  # This is the fitted model
 #                          exposure_var = c("s(TmaxFemales30_54).1", "s(TmaxFemales30_54).2"),  # These are the names of the coefficients in the model corresponding to the exposure variable
-#                          type = "an",
-#                          tot = TRUE,
-#                          sim = TRUE,
-#                          nsim = 5000)
+#                          type = "af",
+#                          tot = TRUE)
 # 
-# 
-# attrisk_nsw <- attrdl_gam(x = nsw_55plus_male$tmax_anomaly,  # This is the actual exposure data
-#                       cases = nsw_55plus_male$deaths,      # This is the actual outcome data
-#                       model = gam_disagg,                  # This is the fitted model
-#                       exposure_var = c("s(TmaxMales55plus).1", "s(TmaxMales55plus).2"),  # These are the names of the coefficients in the model corresponding to the exposure variable
-#                       type = "an",
-#                       tot = TRUE,
-#                       sim = TRUE,
-#                       nsim = 5000)
 # 
 # # Calculate the average fit value - didnt work
 # # avgfit <- mean(an$fit)
@@ -75,4 +59,5 @@
 # # nsw_55plus_male$an <- as.numeric(nsw_55plus_male$an)
 # # # > sum(nsw_55plus_male$an)
 # # # [1] 14972904536
+# 
 # 

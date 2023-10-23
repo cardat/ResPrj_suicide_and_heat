@@ -19,12 +19,12 @@ anomaly$TmaxFemales55plus <- ifelse(
   anomaly$age_group == '55+' & anomaly$sex == 'F', anomaly$tmax_anomaly, 0)
 
 gam_disagg <- gam(
-  deaths ~ 
-    s(TmaxMales10_29, k=3) + 
-    s(TmaxMales30_54, k=3) + 
+  deaths ~
+    s(TmaxMales10_29, k=3) +
+    s(TmaxMales30_54, k=3) +
     s(TmaxMales55plus, k=3) +
-    s(TmaxFemales10_29, k=3) + 
-    s(TmaxFemales30_54, k=3) + 
+    s(TmaxFemales10_29, k=3) +
+    s(TmaxFemales30_54, k=3) +
     s(TmaxFemales55plus, k=3) +
     age_group * sex * ns(year,3) +
     state +
@@ -33,6 +33,34 @@ gam_disagg <- gam(
   data = anomaly,
   family = poisson
 )
+
+# summer only
+# gam_disagg <- gam(
+#   deaths ~ 
+#     s(TmaxMales10_29, k=3) +
+#     s(TmaxMales30_54, k=3) +
+#     s(TmaxMales55plus, k=3) +
+#     s(TmaxFemales10_29, k=3) +
+#     s(TmaxFemales30_54, k=3) +
+#     s(TmaxFemales55plus, k=3) +
+#     age_group * sex * ns(year,3) +
+#     state +
+#     s(month, k=3, fx=T, bs="cr") +
+#     offset(log(pop)),
+#   data = anomaly,
+#   family = poisson
+# )
+
+# Replace these names if they are placeholders
+cat("Unique values in TmaxMales10_29:", length(unique(anomaly$TmaxMales10_29)), "\n")
+cat("Unique values in TmaxMales30_54:", length(unique(anomaly$TmaxMales30_54)), "\n")
+cat("Unique values in TmaxMales55plus:", length(unique(anomaly$TmaxMales55plus)), "\n")
+cat("Unique values in TmaxFemales10_29:", length(unique(anomaly$TmaxFemales10_29)), "\n")
+cat("Unique values in TmaxFemales30_54:", length(unique(anomaly$TmaxFemales30_54)), "\n")
+cat("Unique values in TmaxFemales55plus:", length(unique(anomaly$TmaxFemales55plus)), "\n")
+cat("Unique values in month:", length(unique(anomaly$month)), "\n")
+cat("Unique values in year:", length(unique(anomaly$year)), "\n")
+
 
 
 png("manuscript/01_figures/fig_all_states.png", res=200, width=1000, height=1600)

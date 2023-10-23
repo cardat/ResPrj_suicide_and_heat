@@ -5,7 +5,7 @@ gam <- gam(
   deaths ~ s(tmax_anomaly) + # s(tmax) the s specifies a non-linear(smoothed relationship between response and predictor tmax_anomaly)
     age_group * sex * ns(year,3) + # interaction between agegrp, sex, and natural spline on year with 3 basis functions
     state + # categorical
-    s(month, k=4, fx=T, bs = 'cc') + # another smooth - effect of month. 4 basis functions, TRUE degree of freedom, bs is cyclic cubic spline - useful for cyclical like m and yr.
+    s(month, k=3, fx=T, bs = 'cc') + # another smooth - effect of month. 4 basis functions, TRUE degree of freedom, bs is cyclic cubic spline - useful for cyclical like m and yr.
     offset(log(pop)), # offset to model rates, no raw counts
   data=anomaly,
   family=poisson)

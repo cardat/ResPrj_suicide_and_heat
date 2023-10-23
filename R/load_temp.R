@@ -7,10 +7,13 @@ setDT(dat_temp)
 
 state_names <- c("NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT", "Other")
 
-dat_temp$state <- state_names[dat_temp$state]
 dat_temp[, month := as.integer(month)]
+dat_temp$state <- state_names[dat_temp$state]
 dat_temp[, year := as.integer(year)]
 dat_temp[, tmean := (tmax + tmin)/2]
+
+# keep only summer
+# dat_temp <- dat_temp[dat_temp$month %in% c(1, 2, 12), ]
 
 return(dat_temp)
 }

@@ -108,6 +108,27 @@ list(
     )
   )
   ,
+  #### bootstrap ####
+  tar_target(
+    bootstrap,
+    do_bootstrap(
+      anomaly, 
+      gam_disagg,
+      st = "st", 
+      ag = "ag",
+      sx = "sx"
+    )
+  )
+  ,
+  #### an ####
+  tar_target(
+    an,
+    do_an(
+      anomaly, 
+      gam_disagg
+    )
+  )
+  ,
   ### PLOT ####
   #### plot_desc ####
   tar_target(

@@ -1,72 +1,70 @@
-tar_load(anomaly)
-tar_load(gam_disagg)
-
-# Example usage of the do_bootstrap function
-result <- do_bootstrap(
-  anomaly = anomaly,
-  gam_disagg = gam_disagg,
-  state = "NSW",
-  age_group = "55+",
-  sex = "M")
-cat("Attributable Deaths:", result$attributable_deaths,
-    "(95% CI", result$ci_lower, "to", result$ci_upper, ")\n")
-
-vic_f <- do_bootstrap(
-  anomaly = anomaly,
-  gam_disagg = gam_disagg,
-  state = "VIC",
-  age_group = "55+",
-  sex = "F")
-cat("Attributable Deaths:", vic_f$attributable_deaths,
-    "(95% CI", vic_f$ci_lower, "to", vic_f$ci_upper, ")\n")
-
-
-
-
-
-
-
 do_an <- function(
     anomaly,
     gam_disagg
-    ){
+){
+  
+  # Predefined combinations
   combinations <- list(
-  list(state = "NSW", age_group = "55+", sex = "M"),
-  list(state = "QLD", age_group = "55+", sex = "M"),
-  list(state = "VIC", age_group = "55+", sex = "F")
+    list(st = "NSW", ag = "55+", sx = "M"),
+    list(st = "QLD", ag = "55+", sx = "M"),
+    list(st = "VIC", ag = "55+", sx = "F")
   )
-
-  results <- lapply(
-    combinations,
-    function(
-    combo
-    ){
-    state <- combo$state
-    age_group <- combo$age_group
-    sex <- combo$sex
-
+  
+  # Initialize a data frame to store the results
+  results <- data.frame(
+    State = character(0),
+    Age_Group = character(0),
+    Sex = character(0),
+    AN_CI= character(0),
+    AN_CI_y= character(0)
+  )
+  
+  for(combo in combinations) {
+    
+    # Extracting state, age group, and sex from the combo list
+    state <- combo$st
+    age_group <- combo$ag
+    sex <- combo$sx
+    
+    # Calling the do_bootstrap function
     result <- do_bootstrap(
       anomaly = anomaly,
       gam_disagg = gam_disagg,
-      state = state,
-      age_group = age_group,
-      sex = sex
+      st = state,
+      ag = age_group,
+      sx = sex
     )
-    return(list(
-      state = state,
-      age_group = age_group,
-      sex = sex,
-      attributable_deaths = result$attributable_deaths,
-      ci_lower = result$ci_lower,
-      ci_upper = result$ci_upper
+    
+    # Formatting the AN, CI values and P-Value
+    an_ci <- sprintf("%.2f (%.2f–%.2f)", 
+                             result$attributable_deaths, 
+                             result$ci_lower, 
+                             result$ci_upper)
+    
+    an_ci_y <- sprintf("%.2f (%.2f–%.2f)", 
+                     result$attributable_deaths/13, 
+                     result$ci_lower/13, 
+                     result$ci_upper/13)
+    
+    # Bind the results to the results data frame
+    results <- rbind(results, data.frame(
+      State = state,
+      Age_Group = age_group,
+      Sex = sex,
+      AN_CI = an_ci,
+      AN_CI_y = an_ci_y,
+      stringsAsFactors = FALSE
     ))
-    })
-
-  # Convert the results list to a data frame for easier viewing and manipulation
-  an <- do.call(rbind, lapply(results, as.data.frame))
-
-  # return(an)
+  }
+  
+  return(results)
 }
+# 
+# # Example usage directly calling the function and storing the result
+# results <- do_an(anomaly, gam_disagg)
+# 
+# # Printing the results
+# print(results)
 
 
 

@@ -1,15 +1,13 @@
 do_bootstrap <- function(
     anomaly, 
     gam_disagg, 
-    state = "VIC", 
-    age_group = "55+",
-    sex = "F"
+    st, 
+    ag,
+    sx
 ){
 
   # Subset data based on specified state and age group
-  ste <- subset(anomaly, state == state & age_group == age_group & sex == sex)
-  
-  print(head(ste))
+  ste <- subset(anomaly, state == st & age_group == ag & sex == sx)
   
   # Create interaction terms for Tmax anomaly by sex and age group
   ste <- ste[, `:=`(
@@ -68,7 +66,7 @@ do_bootstrap <- function(
   }
   
   # Number of bootstrap samples
-  n_bootstrap <- 10
+  n_bootstrap <- 1000
   bootstrap_attributable_deaths <- numeric(n_bootstrap)
   
   # Bootstrap sampling

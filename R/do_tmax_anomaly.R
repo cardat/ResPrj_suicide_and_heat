@@ -2,7 +2,7 @@ do_tmax_anomaly <- function(
     mrg_dat_pop,
     dat_temp
 ){
-  
+
 dat_temp <- dat_temp[
   year %in% 1950:2018, .(
     monthly_tmax_avg = mean(
@@ -23,7 +23,11 @@ anomaly[, tmax_anomaly := tmax - monthly_tmax_avg]
 # exclude offshore aussie
 anomaly <- anomaly[state != "Other"]
 
+# negative anomalies or comments out for just positive
 anomaly$tmax_anomaly[anomaly$tmax_anomaly < 0] <- 0
+
+# only summer months. comments out for entire year  
+# anomaly <- anomaly[month %in% c(1, 2, 12)]
 
 return(anomaly)
 }

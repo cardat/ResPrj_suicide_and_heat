@@ -67,6 +67,7 @@ list(
     )
   )
   ,
+  
   ### MODEL ####
   #### gam ####
   tar_target(
@@ -108,27 +109,56 @@ list(
     )
   )
   ,
+  #### gam_disagg_wa ####
+  tar_target(
+    gam_disagg_wa,
+    do_gam_disagg_wa(
+      anomaly
+    )
+  )
+  ,
   #### bootstrap ####
   tar_target(
-    bootstrap,
-    do_bootstrap(
+    bootstrap_wa,
+    do_bootstrap_wa(
       anomaly, 
-      gam_disagg,
-      st = "st", 
-      ag = "ag",
-      sx = "sx"
+      gam_disagg_wa, 
+      st = "WA", 
+      ag = "10–29",
+      sx = "M"
     )
   )
   ,
   #### an ####
   tar_target(
-    an,
-    do_an(
-      anomaly, 
-      gam_disagg
+    an_wa,
+    do_an_wa(
+      anomaly,
+      gam_disagg_wa
     )
   )
   ,
+  # #### bootstrap ####
+  # tar_target(
+  #   bootstrap,
+  #   do_bootstrap(
+  #     anomaly, 
+  #     gam_disagg,
+  #     st = "st", 
+  #     ag = "ag",
+  #     sx = "sx"
+  #   )
+  # )
+  # ,
+  # #### an ####
+  # tar_target(
+  #   an,
+  #   do_an(
+  #     anomaly, 
+  #     gam_disagg
+  #   )
+  # )
+  # ,
   ### PLOT ####
   #### plot_desc ####
   tar_target(

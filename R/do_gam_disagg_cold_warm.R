@@ -16,22 +16,22 @@ do_gam_disagg_cold_warm <- function(
     # interaction vars for age_group, sex
     anomaly_state$TmaxMales10_29 <- ifelse(
       anomaly_state$age_group == '10–29' & anomaly_state$sex == 'M', anomaly_state$tmax_anomaly, 0)
-    
+
     anomaly_state$TmaxMales30_54 <- ifelse(
       anomaly_state$age_group == '30–54' & anomaly_state$sex == 'M', anomaly_state$tmax_anomaly, 0)
-    
+
     anomaly_state$TmaxMales55plus <- ifelse(
       anomaly_state$age_group == '55+' & anomaly_state$sex == 'M', anomaly_state$tmax_anomaly, 0)
-    
+
     anomaly_state$TmaxFemales10_29 <- ifelse(
       anomaly_state$age_group == '10–29' & anomaly_state$sex == 'F', anomaly_state$tmax_anomaly, 0)
-    
+
     anomaly_state$TmaxFemales30_54 <- ifelse(
       anomaly_state$age_group == '30–54' & anomaly_state$sex == 'F', anomaly_state$tmax_anomaly, 0)
-    
+
     anomaly_state$TmaxFemales55plus <- ifelse(
       anomaly_state$age_group == '55+' & anomaly_state$sex == 'F', anomaly_state$tmax_anomaly, 0)
-    
+
     gam_disagg <- gam(
       deaths ~ 
         s(TmaxMales10_29, k=3) + 

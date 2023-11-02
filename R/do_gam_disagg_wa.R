@@ -5,10 +5,7 @@ do_gam_disagg_wa <- function(
   
   # interaction vars
 
-anomaly[, summer_tmax_anomaly := ifelse(
-  month %in% c(12, 1, 2), 
-  tmax_anomaly, 0)]
- 
+
 anomaly[, TmaxMales10_29 := ifelse(
   age_group == '10–29' & 
     sex == 'M' & 
@@ -19,7 +16,6 @@ anomaly[, TmaxMales10_29 := ifelse(
 gam_disagg_wa <- gam(
   deaths ~
     s(TmaxMales10_29, k=3) +
-    s(summer_tmax_anomaly, k=3) +
     ns(year,3) +
     s(month, k=3, fx=T, bs = 'cc') +
     offset(log(pop)),

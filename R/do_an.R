@@ -55,7 +55,7 @@ do_an <- function(
       AN_CI_y = an_ci_y,
       stringsAsFactors = FALSE
     ))
-  }
+  } 
   
   return(results)
 }

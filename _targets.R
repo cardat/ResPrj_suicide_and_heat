@@ -142,9 +142,9 @@ list(
   # tar_target(
   #   bootstrap,
   #   do_bootstrap(
-  #     anomaly, 
+  #     anomaly,
   #     gam_disagg,
-  #     st = "st", 
+  #     st = "st",
   #     ag = "ag",
   #     sx = "sx"
   #   )
@@ -154,7 +154,7 @@ list(
   # tar_target(
   #   an,
   #   do_an(
-  #     anomaly, 
+  #     anomaly,
   #     gam_disagg
   #   )
   # )

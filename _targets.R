@@ -174,7 +174,8 @@ list(
     tab_desc,
     do_tab_desc(
       calc_descriptive,
-      anomaly
+      anomaly,
+      mrg_dat_pop
     )
   )
 )

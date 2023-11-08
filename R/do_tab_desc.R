@@ -1,8 +1,15 @@
 do_tab_desc <- function(
     descriptive,
-    anomaly
+    anomaly,
+    mrg_dat_pop
 ){
- 
+
+  suicides <- mrg_dat_pop[, .(
+    total_sui = sum(deaths, na.rm = TRUE)
+  ), by = state]
+
+  suicides <- suicides[state != "Other"]
+  
   meansByState <- descriptive[, .(
     rate = round(mean(rate, na.rm = TRUE),2),
     rate_m = round(mean(rate_m, na.rm = TRUE),2),
@@ -18,6 +25,7 @@ do_tab_desc <- function(
   
   # Merge 
   tab_desc <- merge(meansByState, anomalyByState, by = "state")
+  tab_desc <- merge(tab_desc, suicides, by = "state")
   
   # Organize states
   ordered_states <- c("NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT")
@@ -25,7 +33,7 @@ do_tab_desc <- function(
   
   # Rename the columns
   setnames(tab_desc, 
-           old = c("state", "rate", "rate_m", "rate_f", "avgtmin", "avgmeantemp", "avgtmax", "mean_tmax_anomaly"),
+           old = c("state", "rate", "rate_m", "rate_f", "avgtmin", "avgmeantemp", "avgtmax", "mean_tmax_anomaly", "total_sui"),
            new = c("State", 
                    "Suicides per 100,000", 
                    "Male suicides per 100,000", 
@@ -33,7 +41,8 @@ do_tab_desc <- function(
                    "Average Minimum Temperature (C)", 
                    "Average Mean Temperature (C)", 
                    "Average Maximum Temperature (C)", 
-                   "Average Maximum Temperature Anomaly (C)"))
+                   "Average Maximum Temperature Anomaly (C)",
+                   "Total Suicides"))
   
   return(tab_desc)
 }

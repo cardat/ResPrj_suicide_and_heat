@@ -22,7 +22,7 @@ par(mar = c(4, 4, 1, 1), # c(bottom, left, top, right)
     cex.axis = 0.8,
     cex.lab = 1)
 plot(gam, select = 2,
-     shade = TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red", lwd=2, seWithMean = TRUE,
+     shade = TRUE, shade.col="grey", col="black", lwd=2, seWithMean = TRUE,
      ylab = 'log Relative Risk',xlab='Month')
 abline(h=0, lty=2, col="black")
 abline(v=9, lty=2, col="black") # September

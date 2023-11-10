@@ -44,7 +44,8 @@ list(
     mrg_dat_pop,
     do_mrg_dat_pop(
       dat_suicide,
-      dat_pop
+      dat_pop,
+      dat_temp
     )
   )
   ,
@@ -117,48 +118,45 @@ list(
     )
   )
   ,
-  #### bootstrap ####
-  tar_target(
-    bootstrap_wa,
-    do_bootstrap_wa(
-      anomaly, 
-      gam_disagg_wa, 
-      st = "WA", 
-      ag = "10–29",
-      sx = "M"
-    )
-  )
-  ,
-  #### an ####
-  tar_target(
-    an_wa,
-    do_an_wa(
-      anomaly,
-      gam_disagg_wa
-    )
-  )
-  ,
-  # #### bootstrap ####
+  # #### bootstrap_wa ####
   # tar_target(
-  #   bootstrap,
-  #   do_bootstrap(
+  #   bootstrap_wa,
+  #   do_bootstrap_wa(
   #     anomaly,
-  #     gam_disagg,
-  #     st = "st",
-  #     ag = "ag",
-  #     sx = "sx"
+  #     gam_disagg_wa,
+  #     st = "5GPER",
+  #     ag = "0–29",
+  #     sx = "M"
   #   )
   # )
   # ,
   # #### an ####
   # tar_target(
-  #   an,
-  #   do_an(
+  #   an_wa,
+  #   do_an_wa(
   #     anomaly,
-  #     gam_disagg
+  #     gam_disagg_wa
   #   )
   # )
   # ,
+  #### bootstrap ####
+  tar_target(
+    bootstrap,
+    do_bootstrap(
+      anomaly,
+      gam_disagg
+    )
+  )
+  ,
+  #### an ####
+  tar_target(
+    an,
+    do_an(
+      anomaly,
+      gam_disagg
+    )
+  )
+  ,
   ### PLOT ####
   #### plot_desc ####
   tar_target(

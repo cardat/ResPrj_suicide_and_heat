@@ -6,15 +6,17 @@ do_bootstrap <- function(
     sx
 ){
 
-  # Subset data based on specified state and age group
-  ste <- subset(anomaly, state == st & age_group == ag & sex == sx)
+  # Subset data based on specified gcc and age group
+  # ste <- subset(anomaly, gcc == st & age_group == ag & sex == sx)
+  
+  ste <- anomaly
   
   # Create interaction terms for Tmax anomaly by sex and age group
   ste <- ste[, `:=`(
-    TmaxMales10_29 = ifelse(age_group == '10–29' & sex == 'M', tmax_anomaly, 0),
+    TmaxMales10_29 = ifelse(age_group == '0–29' & sex == 'M', tmax_anomaly, 0),
     TmaxMales30_54 = ifelse(age_group == '30–54' & sex == 'M', tmax_anomaly, 0),
     TmaxMales55plus = ifelse(age_group == '55+' & sex == 'M', tmax_anomaly, 0),
-    TmaxFemales10_29 = ifelse(age_group == '10–29' & sex == 'F', tmax_anomaly, 0),
+    TmaxFemales10_29 = ifelse(age_group == '0–29' & sex == 'F', tmax_anomaly, 0),
     TmaxFemales30_54 = ifelse(age_group == '30–54' & sex == 'F', tmax_anomaly, 0),
     TmaxFemales55plus = ifelse(age_group == '55+' & sex == 'F', tmax_anomaly, 0)
   )]

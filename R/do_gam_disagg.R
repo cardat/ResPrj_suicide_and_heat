@@ -12,7 +12,7 @@ gam_disagg <- gam(
     s(TmaxFemales30_54, k=3) +
     s(TmaxFemales55plus, k=3) +
     age_group * sex * ns(year,3) +
-    state +
+    gcc +
     s(month, k=3, fx=T, bs = 'cc') +
     offset(log(pop)),
   data = anomaly,
@@ -20,12 +20,12 @@ gam_disagg <- gam(
 )
 
 # Create a list of the titles
-titles <- c('Males 10–29', 'Males 30–54', 'Males 55+', 'Females 10–29', 'Females 30–54', 'Females 55+')
+titles <- c('Males 0–29', 'Males 30–54', 'Males 55+', 'Females 0–29', 'Females 30–54', 'Females 55+')
 
 # Create a list of the colors
 colors <- c("blue", "blue", "blue", "red", "red", "red")
 
-png("manuscript/01_figures/fig_all_states.png", res=200, width=1600, height=1000)
+png("manuscript/01_figures/fig_all_gccs.png", res=200, width=1600, height=1000)
 
 
 

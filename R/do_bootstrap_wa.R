@@ -1,13 +1,13 @@
 do_bootstrap_wa <- function(
     anomaly, 
     gam_disagg_wa, 
-    st = "WA", 
-    ag = "10–29",
+    st = "5GPER", 
+    ag = "0–29",
     sx = "M"
 ){
 
-  # Subset data based on specified state and age group
-  ste <- subset(anomaly, state == st & age_group == ag & sex == sx)
+  # Subset data based on specified gcc and age group
+  ste <- subset(anomaly, gcc == st & age_group == ag & sex == sx)
   
   ste[, summer_tmax_anomaly := ifelse(
     month %in% c(12, 1, 2), 
@@ -15,7 +15,7 @@ do_bootstrap_wa <- function(
   
   # Create interaction terms for Tmax anomaly by sex and age group
   ste <- ste[, `:=`(
-    TmaxMales10_29 = ifelse(age_group == '10–29' & sex == 'M', tmax_anomaly, 0)
+    TmaxMales10_29 = ifelse(age_group == '0–29' & sex == 'M', tmax_anomaly, 0)
   )]
   
   # Create a counterfactual dataset with no anomalies

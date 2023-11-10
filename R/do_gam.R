@@ -4,7 +4,7 @@ do_gam <- function(
 gam <- gam(
   deaths ~ s(tmax_anomaly) + # s(tmax) the s specifies a non-linear(smoothed relationship between response and predictor tmax_anomaly)
     age_group * sex * ns(year,3) + # interaction between agegrp, sex, and natural spline on year with 3 basis functions
-    state + # ctegorical
+    gcc + # ctegorical
     s(month, k=3, fx=T, bs = 'cc') + # another smooth - effect of month. 4 basis functions, TRUE degree of freedom, bs is cyclic cubic spline - useful for cyclical like m and yr.
     offset(log(pop)), # offset to model rates, no raw counts
   data=anomaly,
@@ -15,7 +15,7 @@ gam <- gam(
 # summary(tmaxanomModel)
 
 # Plot
-png('manuscript/01_figures/fig_suicide_risk.png',res=200,width = 1000, height = 1000)
+png('manuscript/01_figures/fig_suicide_riskgcc.png',res=200,width = 1000, height = 1000)
 par(mar = c(4, 4, 1, 1), # c(bottom, left, top, right)
     mgp = c(2.5, 1, 0), # c(axis_title, axis_labels, axis_line)
     las = 1,

@@ -14,7 +14,7 @@ gam_sex <- gam(
     s(TmaxMales, k=3) + 
     s(TmaxFemales, k=3) +
     sex * ns(year,3) +
-    state +
+    gcc +
     s(month, k=3, fx=T, bs = 'cc') +
     offset(log(pop)),
   data = anomaly,

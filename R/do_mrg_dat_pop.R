@@ -1,10 +1,20 @@
 do_mrg_dat_pop <- function(
     dat,
-    pop
+    pop,
+    dat_temp
 ){
   mrg_dat_pop <- merge(
     dat, pop,
-    by = c("state"),
+    by = c("gcc"),
+    all = TRUE
+  )
+  
+  dat_temp <- dat_temp[year %between% c(2000, 2019)]
+  
+  
+  mrg_dat_pop <- merge(
+    mrg_dat_pop, dat_temp,
+    by = c("gcc", "year", "month"),
     all = TRUE
   )
   

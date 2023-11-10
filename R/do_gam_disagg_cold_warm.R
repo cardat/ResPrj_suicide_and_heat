@@ -3,34 +3,34 @@ do_gam_disagg_cold_warm <- function(
 ){
   
   # Aggregate TAS and ACT into one group
-  anomaly$adjusted_state <- ifelse(anomaly$state %in% c("TAS", "ACT"), "TAS_ACT", "OTHER_STATES")
+  anomaly$adjusted_gcc <- ifelse(anomaly$gcc %in% c("6GHOB", "6RTAS", "8ACTE"), "gccTAS_ACT", "warmer_gccs")
   
-  unique_states <- c("TAS_ACT", "OTHER_STATES")
+  unique_gccs <- c("gccTAS_ACT", "warmer_gccs")
   
-  gam_disagg_cold_warm <- list()  # Store the GAM models for each state
+  gam_disagg_cold_warm <- list()  # Store the GAM models for each gcc
   
-  for(state_iter in unique_states){
+  for(gcc_iter in unique_gccs){
     
-    anomaly_state <- anomaly[anomaly$adjusted_state == state_iter,]
+    anomaly_gcc <- anomaly[anomaly$adjusted_gcc == gcc_iter,]
     
     # interaction vars for age_group, sex
-    anomaly_state$TmaxMales10_29 <- ifelse(
-      anomaly_state$age_group == '10–29' & anomaly_state$sex == 'M', anomaly_state$tmax_anomaly, 0)
+    anomaly_gcc$TmaxMales10_29 <- ifelse(
+      anomaly_gcc$age_group == '0–29' & anomaly_gcc$sex == 'M', anomaly_gcc$tmax_anomaly, 0)
 
-    anomaly_state$TmaxMales30_54 <- ifelse(
-      anomaly_state$age_group == '30–54' & anomaly_state$sex == 'M', anomaly_state$tmax_anomaly, 0)
+    anomaly_gcc$TmaxMales30_54 <- ifelse(
+      anomaly_gcc$age_group == '30–54' & anomaly_gcc$sex == 'M', anomaly_gcc$tmax_anomaly, 0)
 
-    anomaly_state$TmaxMales55plus <- ifelse(
-      anomaly_state$age_group == '55+' & anomaly_state$sex == 'M', anomaly_state$tmax_anomaly, 0)
+    anomaly_gcc$TmaxMales55plus <- ifelse(
+      anomaly_gcc$age_group == '55+' & anomaly_gcc$sex == 'M', anomaly_gcc$tmax_anomaly, 0)
 
-    anomaly_state$TmaxFemales10_29 <- ifelse(
-      anomaly_state$age_group == '10–29' & anomaly_state$sex == 'F', anomaly_state$tmax_anomaly, 0)
+    anomaly_gcc$TmaxFemales10_29 <- ifelse(
+      anomaly_gcc$age_group == '0–29' & anomaly_gcc$sex == 'F', anomaly_gcc$tmax_anomaly, 0)
 
-    anomaly_state$TmaxFemales30_54 <- ifelse(
-      anomaly_state$age_group == '30–54' & anomaly_state$sex == 'F', anomaly_state$tmax_anomaly, 0)
+    anomaly_gcc$TmaxFemales30_54 <- ifelse(
+      anomaly_gcc$age_group == '30–54' & anomaly_gcc$sex == 'F', anomaly_gcc$tmax_anomaly, 0)
 
-    anomaly_state$TmaxFemales55plus <- ifelse(
-      anomaly_state$age_group == '55+' & anomaly_state$sex == 'F', anomaly_state$tmax_anomaly, 0)
+    anomaly_gcc$TmaxFemales55plus <- ifelse(
+      anomaly_gcc$age_group == '55+' & anomaly_gcc$sex == 'F', anomaly_gcc$tmax_anomaly, 0)
 
     gam_disagg <- gam(
       deaths ~ 
@@ -43,23 +43,23 @@ do_gam_disagg_cold_warm <- function(
         age_group * sex * ns(year,3) +
         s(month, k=3, fx=T, bs = 'cc') +
         offset(log(pop)),
-      data = anomaly_state,
+      data = anomaly_gcc,
       family = poisson
     )
     
-    gam_disagg_cold_warm[[state_iter]] <- list(
+    gam_disagg_cold_warm[[gcc_iter]] <- list(
       model = gam_disagg,
-      data = anomaly_state  # Store the data subset as well for future reference
+      data = anomaly_gcc  # Store the data subset as well for future reference
     )
     
-    png(paste0("manuscript/01_figures/fig_cold_warm_", state_iter, ".png"), res=200, width=1000, height=1600)
+    png(paste0("manuscript/01_figures/fig_cold_warm_", gcc_iter, ".png"), res=200, width=1000, height=1600)
     
     par(mfcol=c(3,2), mar=c(4,5,2,1), cex=0.5)
     
     # For TmaxM ages
     plot(gam_disagg, select=1, se=T, shade=TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red", ylab='log Relative Risk', xlab='TmaxAnomaly')
     abline(h=0, col="black", lty=2)
-    title('Males 10–29')
+    title('Males 0–29')
     
     plot(gam_disagg, select=2, se=T, shade=TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red", ylab='log Relative Risk', xlab='TmaxAnomaly')
     abline(h=0, col="black", lty=2)
@@ -72,7 +72,7 @@ do_gam_disagg_cold_warm <- function(
     # For Tmax f and ages
     plot(gam_disagg, select=4, se=T, shade=TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red", ylab='log Relative Risk', xlab='TmaxAnomaly')
     abline(h=0, col="black", lty=2)
-    title('Females 10–29')
+    title('Females 0–29')
     
     plot(gam_disagg, select=5, se=T, shade=TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red", ylab='log Relative Risk', xlab='TmaxAnomaly')
     abline(h=0, col="black", lty=2)

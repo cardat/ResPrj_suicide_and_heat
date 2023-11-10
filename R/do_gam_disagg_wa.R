@@ -7,9 +7,9 @@ do_gam_disagg_wa <- function(
 
 
 anomaly[, TmaxMales10_29 := ifelse(
-  age_group == '10–29' & 
+  age_group == '0–29' & 
     sex == 'M' & 
-    state == "WA", 
+    gcc == "5GPER", 
   tmax_anomaly, 0)]
   
 
@@ -23,7 +23,7 @@ gam_disagg_wa <- gam(
   family = poisson
 )
 
-png("manuscript/01_figures/fig_boys_wa_positive.png", res=200, width=1200, height=900)
+png("manuscript/01_figures/fig_boys_perth.png", res=200, width=1200, height=900)
 
 # For TmaxM ages
 plot(gam_disagg_wa, select=1, se=T, shade=TRUE, rug = TRUE, shade.col=rgb(1, 0, 0, 0.2), col="red",  ylab='log Relative Risk', xlab='TmaxAnomaly')

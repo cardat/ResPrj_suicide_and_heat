@@ -5,14 +5,14 @@ do_an <- function(
   
   # Predefined combinations
   combinations <- list(
-    list(st = "NSW", ag = "55+", sx = "M"),
-    list(st = "QLD", ag = "55+", sx = "M"),
-    list(st = "VIC", ag = "55+", sx = "F")
+    list(st = "1GSYD", ag = "55+", sx = "M"),
+    list(st = "3GBRI", ag = "55+", sx = "M"),
+    list(st = "2GMEL", ag = "55+", sx = "F")
   )
   
   # Initialize a data frame to store the results
   results <- data.frame(
-    State = character(0),
+    gcc = character(0),
     Age_Group = character(0),
     Sex = character(0),
     AN_CI= character(0),
@@ -21,8 +21,8 @@ do_an <- function(
   
   for(combo in combinations) {
     
-    # Extracting state, age group, and sex from the combo list
-    state <- combo$st
+    # Extracting gcc, age group, and sex from the combo list
+    gcc <- combo$st
     age_group <- combo$ag
     sex <- combo$sx
     
@@ -30,7 +30,7 @@ do_an <- function(
     result <- do_bootstrap(
       anomaly = anomaly,
       gam_disagg = gam_disagg,
-      st = state,
+      st = gcc,
       ag = age_group,
       sx = sex
     )
@@ -48,7 +48,7 @@ do_an <- function(
     
     # Bind the results to the results data frame
     results <- rbind(results, data.frame(
-      State = state,
+      gcc = gcc,
       Age_Group = age_group,
       Sex = sex,
       AN_CI = an_ci,

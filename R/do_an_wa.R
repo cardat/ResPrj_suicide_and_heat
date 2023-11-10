@@ -3,13 +3,13 @@ do_an_wa <- function(
     gam_disagg_wa
 ){
   # Specified group
-  state <- "WA"
-  age_group <- "10–29"
+  gcc <- "5GPER"
+  age_group <- "0–29"
   sex <- "M"
   
   # Initialize a data frame to store the results
   results <- data.frame(
-    State = character(0),
+    gcc = character(0),
     Age_Group = character(0),
     Sex = character(0),
     AN_CI = character(0),
@@ -20,7 +20,7 @@ do_an_wa <- function(
   result <- do_bootstrap_wa(
     anomaly = anomaly,
     gam_disagg_wa = gam_disagg_wa,
-    st = state,
+    st = gcc,
     ag = age_group,
     sx = sex
   )
@@ -38,7 +38,7 @@ do_an_wa <- function(
   
   # Bind the results to the results data frame
   results <- rbind(results, data.frame(
-    State = state,
+    gcc = gcc,
     Age_Group = age_group,
     Sex = sex,
     AN_CI = an_ci,

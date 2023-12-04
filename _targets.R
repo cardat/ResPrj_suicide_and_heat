@@ -102,6 +102,15 @@ list(
     )
   )
   ,
+  
+  #### gam_disagg_states ####
+  tar_target(
+    gam_disagg_gccs,
+    do_gam_disagg_gccs(
+      anomaly
+    )
+  )
+  ,
   #### gam_disagg_cold_warm ####
   tar_target(
     gam_disagg_cold_warm,

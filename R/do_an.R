@@ -1,15 +1,16 @@
 do_an <- function(
     anomaly,
-    gam_disagg
+    gam_sex_gcc
 ){
-  
-  # Predefined combinations
-  combinations <- list(
-    list(st = "1GSYD", ag = "55+", sx = "M"),
-    list(st = "3GBRI", ag = "55+", sx = "M"),
-    list(st = "2GMEL", ag = "55+", sx = "F")
-  )
-  
+
+  # Extract unique values for st, ag, and sx
+  unique_st <- unique(anomaly$gcc)
+  unique_ag <- unique(anomaly$age_group)
+  unique_sx <- unique(anomaly$sex)
+
+  # Generate all combinations
+  combinations <- expand.grid(st = unique_st, ag = unique_ag, sx = unique_sx)
+
   # Initialize a data frame to store the results
   results <- data.frame(
     gcc = character(0),
@@ -18,14 +19,14 @@ do_an <- function(
     AN_CI= character(0),
     AN_CI_y= character(0)
   )
-  
-  for(combo in combinations) {
-    
+
+  for(combo in seq_len(nrow(combinations))) {
+
     # Extracting gcc, age group, and sex from the combo list
-    gcc <- combo$st
-    age_group <- combo$ag
-    sex <- combo$sx
-    
+    gcc <- combinations$st[combo]
+    age_group <- combinations$ag[combo]
+    sex <- combinations$sx[combo]
+
     # Calling the do_bootstrap function
     result <- do_bootstrap(
       anomaly = anomaly,
@@ -34,6 +35,40 @@ do_an <- function(
       ag = age_group,
       sx = sex
     )
+
+  
+  # # Predefined combinations
+  # combinations <- list(
+  #   list(st = "1GSYD", ag = "55+", sx = "M")
+  #   # ,
+  #   # list(st = "3GBRI", ag = "55+", sx = "M"),
+  #   # list(st = "2GMEL", ag = "55+", sx = "F")
+  # )
+  # 
+  # # Initialize a data frame to store the results
+  # results <- data.frame(
+  #   gcc = character(0),
+  #   Age_Group = character(0),
+  #   Sex = character(0),
+  #   AN_CI= character(0),
+  #   AN_CI_y= character(0)
+  # )
+  # 
+  # for(combo in combinations) {
+  #   
+  #   # Extracting gcc, age group, and sex from the combo list
+  #   gcc <- combo$st
+  #   age_group <- combo$ag
+  #   sex <- combo$sx
+  #   
+  #   # Calling the do_bootstrap function
+  #   result <- do_bootstrap(
+  #     anomaly = anomaly,
+  #     gam_disagg = gam_disagg,
+  #     st = gcc,
+  #     ag = age_group,
+  #     sx = sex
+  #   )
     
     # Formatting the AN, CI values and P-Value
     an_ci <- sprintf("%.2f (%.2f–%.2f)", 

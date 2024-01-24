@@ -19,7 +19,7 @@ anomaly <- mrg_dat_pop[, tmax_anomaly := tmax - monthly_tmax_avg]
 # negative anomalies or comments out for just positive
 anomaly$tmax_anomaly[anomaly$tmax_anomaly < 0] <- 0
 
-# only summer months. comments out for entire year  
+# only summer months. commented out the following line for entire year  
 # anomaly <- anomaly[month %in% c(1, 2, 12)]
 
 anomaly[, summer_tmax_anomaly := ifelse(

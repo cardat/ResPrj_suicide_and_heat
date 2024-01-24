@@ -7,7 +7,7 @@ load_dat <- function(
   
   qc <- dat[, .(tdeaths = sum(Deaths)), by = Age_group]
   
-  dat[, Age_group := gsub("\x96", "–", Age_group)]
+  dat[, Age_group := gsub("\\x96", "–", Age_group)]
 
   # lowercase
   setnames(dat, old = names(dat), new = tolower(names(dat)))

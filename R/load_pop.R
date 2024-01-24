@@ -1,7 +1,7 @@
 load_pop <- function(
     dir
 ){
-  pop <- fread(file.path("C:/Users/291828h/CloudStor/Shared/Environment_General/ABS_data/ABS_GCP_2016/data_provided/GCCSA/AUST/2016Census_G01_AUS_GCCSA.csv"))
+  pop <- fread(file.path("C:/Users/291828h/Nextcloud/Environment_General/ABS_data/ABS_GCP_2016/data_provided/GCCSA/AUST/2016Census_G01_AUS_GCCSA.csv"))
 
   
   # Create a lookup vector

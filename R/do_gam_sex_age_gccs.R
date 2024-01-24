@@ -1,4 +1,4 @@
-do_gam_disagg_gccs <- function(
+do_gam_sex_age_gccs <- function(
     anomaly
 ){
   unique_gccs <- unique(anomaly$gcc)
@@ -68,12 +68,12 @@ do_gam_disagg_gccs <- function(
   
   # Loop through each age group
   for (age_group in c("0_29", "30_54", "55plus")) {
-    pdf_filename <- paste("manuscript/01_figures/big_plots/fig_", age_group, ".pdf", sep="")
-    pdf(pdf_filename, width = 8.3, height = 11.7)
-    
-    # png_filename <- paste("manuscript/01_figures/big_plots/fig", age_group, ".png", sep="")
-    # png(png_filename, res=200, width=1300, height=1800)
-    
+    # pdf_filename <- paste("manuscript/01_figures/big_plots/fig_", age_group, ".pdf", sep="")
+    # pdf(pdf_filename, width = 8.3, height = 11.7)
+    # 
+    png_filename <- paste("figures_and_tables/fig_sex_age_gccs_", age_group, ".png", sep="")
+    png(png_filename, res=200, width=1300, height=1800)
+
     par(mfrow=c(9, 3),
         mgp = c(2.5, 1, 0),
         mar=c(2,3,1,1), #b,l,t,r
@@ -125,12 +125,6 @@ do_gam_disagg_gccs <- function(
     
     dev.off()
   }
-  return(gam_disagg_gccs)  # Return the list of GAM models
+  return(gam_gccs)  # Return the list of GAM models
 }
-
-
-
-
-
-
 

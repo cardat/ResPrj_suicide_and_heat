@@ -4,6 +4,8 @@ do_tab_desc <- function(
     mrg_dat_pop
 ){
 
+  ### DEPRECATED ####
+  
   suicides <- mrg_dat_pop[, .(
     total_sui = sum(deaths, na.rm = TRUE)
   ), by = gcc]
@@ -36,7 +38,8 @@ do_tab_desc <- function(
                     "6GHOB", "6RTAS",
                     "7GDAR", "7RNTE",
                     "8ACTE")
-  tab_desc <- tab_desc[match(ordered_gccs, gcc)]
+  
+   tab_desc <- tab_desc[match(ordered_gccs, gcc)]
   
   # Rename the columns
   setnames(tab_desc, 

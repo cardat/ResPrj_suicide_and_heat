@@ -15,7 +15,7 @@ gam <- gam(
 # summary(tmaxanomModel)
 
 # Plot
-png('manuscript/01_figures/fig_suicide_riskgcc.png',res=200,width = 1000, height = 1000)
+png("figures_and_tables/fig_season_risk.png",res=200,width = 1000, height = 1000)
 par(mar = c(4, 4, 1, 1), # c(bottom, left, top, right)
     mgp = c(2.5, 1, 0), # c(axis_title, axis_labels, axis_line)
     las = 1,

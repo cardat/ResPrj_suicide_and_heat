@@ -1,0 +1,15 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+```{r, echo=FALSE}
+an <- targets::tar_read(tab_an)
+# Create the table with kable
+knitr::kable(
+  an, 
+  caption = 
+    "Suicide attributable to extreme heat"
+  )
+```
+

@@ -54,7 +54,8 @@ list(
   tar_target(
     calc_descriptive,
     do_desc(
-      mrg_dat_pop
+      dat_pop,
+      dat_suicide
     )
   )
   ,
@@ -86,103 +87,37 @@ list(
     )
   )
   ,
-  #### gam_disagg ####
+  #### gam_sex_gcc ####
   tar_target(
-    gam_disagg,
-    do_gam_disagg(
+    gam_sex_gcc,
+    do_gam_sex_gccs(
       anomaly
     )
   )
   ,
-  #### gam_disagg_states ####
+  #### gam_sex_age_gcc ####
   tar_target(
-    gam_disagg_states,
-    do_gam_disagg_states(
+    gam_sex_age_gcc,
+    do_gam_sex_age_gccs(
       anomaly
     )
   )
   ,
-  
-  #### gam_disagg_states ####
-  tar_target(
-    gam_disagg_gccs,
-    do_gam_disagg_gccs(
-      anomaly
-    )
-  )
-  ,
-  #### gam_disagg_cold_warm ####
-  tar_target(
-    gam_disagg_cold_warm,
-    do_gam_disagg_cold_warm(
-      anomaly
-    )
-  )
-  ,
-  #### gam_disagg_wa ####
-  tar_target(
-    gam_disagg_wa,
-    do_gam_disagg_wa(
-      anomaly
-    )
-  )
-  ,
-  # #### bootstrap_wa ####
-  # tar_target(
-  #   bootstrap_wa,
-  #   do_bootstrap_wa(
-  #     anomaly,
-  #     gam_disagg_wa,
-  #     st = "5GPER",
-  #     ag = "0–29",
-  #     sx = "M"
-  #   )
-  # )
-  # ,
-  # #### an ####
-  # tar_target(
-  #   an_wa,
-  #   do_an_wa(
-  #     anomaly,
-  #     gam_disagg_wa
-  #   )
-  # )
-  # ,
   #### bootstrap ####
   tar_target(
     bootstrap,
     do_bootstrap(
       anomaly,
-      gam_disagg
+      gam_sex
     )
   )
   ,
-  #### an ####
+  ### ATTRIBUTABLE NUMBER ####
+  #### tab_an ####
   tar_target(
-    an,
-    do_an(
-      anomaly,
-      gam_disagg
-    )
-  )
-  ,
-  ### PLOT ####
-  #### plot_desc ####
-  tar_target(
-    plot_desc,
-    do_plot_desc(
-      calc_descriptive
-    )
-  )
-  ,
-  ### TABLES ####
-  #### tab_desc ####
-  tar_target(
-    tab_desc,
-    do_tab_desc(
-      calc_descriptive,
-      anomaly,
-      mrg_dat_pop
+    tab_an,
+    do_tab_an(
+      bootstrap
     )
   )
 )

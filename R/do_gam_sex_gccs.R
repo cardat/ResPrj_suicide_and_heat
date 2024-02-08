@@ -15,7 +15,7 @@ do_gam_sex_gccs <- function(anomaly) {
       deaths ~ 
         s(TmaxMales, k=3) + 
         s(TmaxFemales, k=3) +
-        sex * ns(year,3) +
+        age_group * sex * ns(year,3) +
         s(month, k=3, fx=T, bs='cc') + 
         offset(log(pop)),
       data = anomaly_gcc,

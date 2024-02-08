@@ -95,6 +95,14 @@ list(
     )
   )
   ,
+  #### gam_sex_age ####
+  tar_target(
+    gam_sex_age,
+    do_gam_sex_age(
+      anomaly
+    )
+  )
+  ,
   #### gam_sex_age_gcc ####
   tar_target(
     gam_sex_age_gcc,
@@ -102,22 +110,22 @@ list(
       anomaly
     )
   )
-  ,
-  #### bootstrap ####
-  tar_target(
-    bootstrap,
-    do_bootstrap(
-      anomaly,
-      gam_sex
-    )
-  )
-  ,
-  ### ATTRIBUTABLE NUMBER ####
-  #### tab_an ####
-  tar_target(
-    tab_an,
-    do_tab_an(
-      bootstrap
-    )
-  )
+  # ,
+  # ### ATTRIBUTABLE NUMBER ####
+  # #### bootstrap ####
+  # tar_target(
+  #   bootstrap,
+  #   do_bootstrap(
+  #     anomaly,
+  #     gam_sex
+  #   )
+  # )
+  # ,
+  # #### tab_an ####
+  # tar_target(
+  #   tab_an,
+  #   do_tab_an(
+  #     bootstrap
+  #   )
+  # )
 )

@@ -2,9 +2,9 @@ do_desc <- function(
     dat_pop,
     dat_suicide
 ){
-  options(scipen = 999)
-  tar_load(dat_pop)
-  tar_load(dat_suicide)
+  # options(scipen = 999)
+  # tar_load(dat_pop)
+  # tar_load(dat_suicide)
 
   # Convert deaths and population figures to numeric
   dat_pop[, pop := as.numeric(pop)]

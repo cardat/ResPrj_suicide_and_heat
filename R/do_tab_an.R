@@ -22,7 +22,7 @@ do_tab_an <- function(
   for(group_name in names(by_group)) {
     group_data <- by_group[[group_name]]
     city_code <- gsub("_[MF]$", "", group_name)  # Extract the city code
-    gender <- sub(".*_", "", group_name)        # Extract gender indicator
+    gender <- sub(".*_", "", group_name)        # Extract sex indicator
     
     # Replace city code with city name
     city_name <- gcc_names[city_code]
@@ -44,13 +44,24 @@ do_tab_an <- function(
     }
   }
   
-  # Add total attributable deaths for all cities, rounding the numbers
-  total <- bootstrap$total
-  total_str <- paste(round(total$attributable_deaths), 
-                     "(", round(total$ci_lower), "-", round(total$ci_upper), ")", sep = "")
-  results_df <- rbind(results_df, data.frame(city = "Total", male_attributable_deaths = NA, female_attributable_deaths = NA, stringsAsFactors = FALSE))
-  results_df[results_df$city == "Total", "male_attributable_deaths"] <- total_str
-  results_df[results_df$city == "Total", "female_attributable_deaths"] <- total_str
+  # Extracting total attributable deaths for males and females
+  total_M <- bootstrap$total_M
+  total_F <- bootstrap$total_F
+  
+  # Formatting total attributable deaths strings for males and females
+  total_str_M <- paste(round(total_M$attributable_deaths), 
+                       "(", round(total_M$ci_lower), "-", round(total_M$ci_upper), ")", sep = "")
+  total_str_F <- paste(round(total_F$attributable_deaths), 
+                       "(", round(total_F$ci_lower), "-", round(total_F$ci_upper), ")", sep = "")
+  
+  # Assuming the results_df already has a row for "Total", we'll update it
+  if("Total" %in% results_df$city) {
+    results_df[results_df$city == "Total", "male_attributable_deaths"] <- total_str_M
+    results_df[results_df$city == "Total", "female_attributable_deaths"] <- total_str_F
+  } else {
+    # If not, add a new row for "Total"
+    results_df <- rbind(results_df, data.frame(city = "Total", male_attributable_deaths = total_str_M, female_attributable_deaths = total_str_F, stringsAsFactors = FALSE))
+  }
   
   return(results_df)
 }

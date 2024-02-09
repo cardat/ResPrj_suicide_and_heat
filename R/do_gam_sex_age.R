@@ -27,7 +27,7 @@ gam_model <- gam(
 )
 
 # Set up the plotting area
-png("figures_and_tables/03.1.fig_sex_age.png", res=200, width=1600, height=900)
+png("figures_and_tables/fig_sex_age.png", res=200, width=1600, height=900)
 par(mfrow=c(2, 3), mar=c(4, 4, 2, 1))
 
 # Define plot titles

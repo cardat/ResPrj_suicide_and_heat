@@ -2,97 +2,61 @@ do_plot_temp <- function(
     dat_temp
 ){
   
-# time-series yearly avg temperature plot
-  
-temp <- readRDS("C:/Users/291828H/OneDrive - Curtin/projects/DatSci_AWAP_GRIDS_1950_2019_ABS_State/data_derived/AWAP_1950-2019_ABS_2016_gcc_mth_avg_temperatures.rds")
 
-setDT(temp)
+foo <- dat_temp[year %between% c(1950, 2019)]
+foo[, tmax_anomaly := tmax - monthly_tmax_avg]
+foo$tmax_anomaly[foo$tmax_anomaly < 0] <- 0
+mean_anomaly <- foo[, .(mean_tmax_anomaly = mean(tmax_anomaly, na.rm = TRUE)), by = .(year)]
 
-gcc_names <- c("1GSYD", "1RNSW", 
-               "2GMEL", "2RVIC", 
-               "3GBRI", "3RQLD", 
-               "4GADE", "4RSAU", 
-               "5GPER", "5RWAU",
-               "6GHOB", "6RTAS",
-               "7GDAR", "7RNTE",
-               "8ACTE")
+df <- as.data.frame(mean_anomaly)
 
-temp$gcc <- gcc_names[temp$gcc]
-temp[, month := as.integer(month)]
-temp[, year := as.integer(year)]
-temp[, tmean := (tmax + tmin)/2]  
-yearly <- temp[, .(yr_avg = mean(tmean, na.rm = TRUE)), by = .(gcc, year)]
+# Calculate the minimum and maximum values for mean_tmax_anomaly
+min_anomaly <- min(df$mean_tmax_anomaly)
+max_anomaly <- max(df$mean_tmax_anomaly)
 
-yearly_all_gccs <- yearly[, .(yr_avg_all = mean(yr_avg, na.rm = TRUE)), by = year]
+# Generate breaks and labels for every 5 years
+breaks_years <- seq(from=min(df$year), to=max(df$year), by=5)
+labels_years <- as.character(breaks_years)
 
-# Fit the model
-gam_model <- gam(yr_avg_all ~ s(year), data = yearly_all_gccs)
+png_filename <- "figures_and_tables/fig_temp.png"
+png(png_filename, res=200, width=1800, height=900)
 
-# Calculate standard errors
-fitted_values <- fitted(gam_model)
-se.fit <- predict(gam_model, type="response", se.fit=TRUE)$se.fit
+ggplot_object <- ggplot(df, aes(x=factor(year), y=1, fill=mean_tmax_anomaly)) + 
+  geom_tile(color="white") + 
+  scale_fill_gradientn(
+    colors=rev(heat.colors(100)), 
+    name="", 
+    limits=c(min_anomaly, max_anomaly),
+    breaks=c(min_anomaly, max_anomaly), 
+    labels=c(paste(round(min_anomaly, 1), "°C"), paste(round(max_anomaly, 1), "°C"))) +
+  labs(x="Year", y="", title="") + 
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    legend.direction = "vertical",
+    axis.text.x = element_text(angle=0, hjust=0.5, vjust=0.5),
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    legend.title = element_text(size=0.5),
+    plot.title = element_text(hjust=0.5),
+    legend.key.height = unit(0.5, "cm")  
+  ) +
+  guides(
+    fill = guide_colorbar(
+      title.position = "top", 
+      title.hjust = 0.5, 
+      barwidth = 1, 
+      barheight = 5
+      )
+  ) +
+  scale_x_discrete(breaks = breaks_years, labels = labels_years) +
+  geom_segment(aes(x = factor(2000), xend = factor(2019), y = 1.5, yend = 1.5), color = "deepskyblue3", size = 3) +
+  annotate("text", x = factor(2010), y = 1.56, label = "Study period", size = 3.5, angle = 0, hjust = 0.5, vjust = 1)
 
-png("manuscript/01_figures/fig_temperaturegcc.png", res = 200, width = 1800, height = 700)
-# Plot the original data
-plot(yearly_all_gccs$year, yearly_all_gccs$yr_avg_all, 
-     type = "l",  # "l" for line plot
-     xlab = "Year", 
-     ylab = "Average Temperature",
-     main = "",
-     col = "black", 
-     ylim = c(min(yearly_all_gccs$yr_avg_all, fitted(gam_model) - 2*se.fit), 
-              max(yearly_all_gccs$yr_avg_all, fitted(gam_model) + 2*se.fit)))
+# Display the plot
+print(ggplot_object)
 
-# Add shaded confidence intervals
-polygon(c(yearly_all_gccs$year, rev(yearly_all_gccs$year)), 
-        c(fitted_values - 2*se.fit, rev(fitted_values + 2*se.fit)), 
-        col = adjustcolor("grey", alpha.f = 0.8), border = NA)
-
-# Add GAM smooth line
-lines(yearly_all_gccs$year, fitted_values, col="black")
 dev.off()
 }
 
-# only WA
-
-# temp <- readRDS("C:/Users/291828H/OneDrive - Curtin/projects/DatSci_AWAP_GRIDS_1950_2019_ABS_State/data_derived/AWAP_1950-2019_ABS_2016_State_mth_avg_temperatures.rds")
-# 
-# setDT(temp)
-# 
-# state_names <- c("NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT", "Other")
-# 
-# temp$state <- state_names[temp$state]
-# temp[, month := as.integer(month)]
-# temp[, year := as.integer(year)]
-# temp[, tmean := (tmax + tmin)/2]  
-# yearly <- temp[, .(yr_avg = mean(tmean, na.rm = TRUE)), by = .(state, year)]
-# 
-# # Filter for WA only
-# yearly_wa <- yearly[state == "WA"]
-# 
-# # Fit the model for WA
-# gam_model_wa <- gam(yr_avg ~ s(year), data = yearly_wa)
-# 
-# # Calculate standard errors for WA
-# fitted_values_wa <- fitted(gam_model_wa)
-# se.fit_wa <- predict(gam_model_wa, type="response", se.fit=TRUE)$se.fit
-# 
-# png("manuscript/01_figures/fig_temperature_WA.png", res = 200, width = 1800, height = 700)
-# # Plot the original data for WA
-# plot(yearly_wa$year, yearly_wa$yr_avg, 
-#      type = "l",  # "l" for line plot
-#      xlab = "Year", 
-#      ylab = "Average Temperature in WA",
-#      main = "",
-#      col = "black", 
-#      ylim = c(min(yearly_wa$yr_avg, fitted_values_wa - 2*se.fit_wa), 
-#               max(yearly_wa$yr_avg, fitted_values_wa + 2*se.fit_wa)))
-# 
-# # Add shaded confidence intervals for WA
-# polygon(c(yearly_wa$year, rev(yearly_wa$year)), 
-#         c(fitted_values_wa - 2*se.fit_wa, rev(fitted_values_wa + 2*se.fit_wa)), 
-#         col = adjustcolor("grey", alpha.f = 0.8), border = NA)
-# 
-# # Add GAM smooth line for WA
-# lines(yearly_wa$year, fitted_values_wa, col="black")
-# dev.off()

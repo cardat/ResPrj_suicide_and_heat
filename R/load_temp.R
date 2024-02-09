@@ -19,7 +19,7 @@ dat_temp$gcc <- gcc_names[dat_temp$gcc]
 dat_temp[, year := as.integer(year)]
 dat_temp[, tmean := (tmax + tmin)/2]
 
-dat_temp[year %in% 1950:2018, monthly_tmax_avg := mean(tmax, na.rm = TRUE), by = .(gcc, month)]
+dat_temp[year %in% 1950:2019, monthly_tmax_avg := mean(tmax, na.rm = TRUE), by = .(gcc, month)]
 
 return(dat_temp)
 }

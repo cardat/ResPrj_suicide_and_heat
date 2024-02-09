@@ -8,7 +8,8 @@ tar_option_set(
       "data.table",
       "lubridate",
       "mgcv",
-      "splines"
+      "splines",
+      "ggplot2"
     )
 )
 
@@ -56,6 +57,14 @@ list(
     do_desc(
       dat_pop,
       dat_suicide
+    )
+  )
+  ,
+  #### plot_temp ####
+  tar_target(
+    plot_temp,
+    do_plot_temp(
+      dat_temp
     )
   )
   ,
@@ -110,22 +119,22 @@ list(
       anomaly
     )
   )
-  # ,
-  # ### ATTRIBUTABLE NUMBER ####
-  # #### bootstrap ####
-  # tar_target(
-  #   bootstrap,
-  #   do_bootstrap(
-  #     anomaly,
-  #     gam_sex
-  #   )
-  # )
-  # ,
-  # #### tab_an ####
-  # tar_target(
-  #   tab_an,
-  #   do_tab_an(
-  #     bootstrap
-  #   )
-  # )
+  ,
+  ### ATTRIBUTABLE NUMBER ####
+  #### bootstrap ####
+  tar_target(
+    bootstrap,
+    do_bootstrap(
+      anomaly,
+      gam_sex
+    )
+  )
+  ,
+  #### tab_an ####
+  tar_target(
+    tab_an,
+    do_tab_an(
+      bootstrap
+    )
+  )
 )

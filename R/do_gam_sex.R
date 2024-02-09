@@ -1,12 +1,6 @@
 do_gam_sex <- function(
     anomaly
 ){
-  
-
-
-# Interaction vars for sex only
-# anomaly$TmaxMales <- ifelse(anomaly$sex == 'M', anomaly$tmax_anomaly, 0)
-# anomaly$TmaxFemales <- ifelse(anomaly$sex == 'F', anomaly$tmax_anomaly, 0)
 
 # Fit the model
 gam_sex <- gam(
@@ -21,25 +15,27 @@ gam_sex <- gam(
   family = poisson
 )
 
-# Plot the results
-png("figures_and_tables/fig_sex.png", res=200, width=1000, height=1000)
-
-par(mfcol=c(2,1), mar=c(4,5,2,1), cex=0.5)
-
-# For Tmax males
-plot(gam_sex, select=1, se=T, shade=TRUE, 
-     shade.col=adjustcolor("deepskyblue3", alpha.f = 0.1), col="deepskyblue3",
-     ylab='log Relative Risk', xlab='TmaxAnomaly')
-abline(h=0, col="black", lty=2)
-title('Males All Ages')
-
-# For Tmax females
-plot(gam_sex, select=2, se=T, shade=TRUE, 
-     shade.col=adjustcolor("brown1", alpha.f = 0.2), col="brown1", 
-     ylab='log Relative Risk', xlab='TmaxAnomaly')
-abline(h=0, col="black", lty=2)
-title('Females All Ages')
-dev.off()
-
 return(gam_sex)
+
+# # Plot the results
+# png("figures_and_tables/fig_sex.png", res=200, width=1000, height=1000)
+# 
+# par(mfcol=c(2,1), mar=c(4,5,2,1), cex=0.5)
+# 
+# # For Tmax males
+# plot(gam_sex, select=1, se=T, shade=TRUE,
+#      shade.col=adjustcolor("deepskyblue3", alpha.f = 0.1), col="deepskyblue3",
+#      ylab='log Relative Risk', xlab='TmaxAnomaly')
+# abline(h=0, col="black", lty=2)
+# title('Males All Ages')
+# 
+# # For Tmax females
+# plot(gam_sex, select=2, se=T, shade=TRUE,
+#      shade.col=adjustcolor("brown1", alpha.f = 0.2), col="brown1",
+#      ylab='log Relative Risk', xlab='TmaxAnomaly')
+# abline(h=0, col="black", lty=2)
+# title('Females All Ages')
+# dev.off()
+
+
 }

@@ -9,7 +9,8 @@ tar_option_set(
       "lubridate",
       "mgcv",
       "splines",
-      "ggplot2"
+      "ggplot2",
+      "RColorBrewer"
     )
 )
 

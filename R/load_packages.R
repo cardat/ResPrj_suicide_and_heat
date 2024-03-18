@@ -4,7 +4,8 @@ load_packages <- function(do_it = T){
             "lubridate",
             "mgcv",
             "splines",
-            "ggplot2")
+            "ggplot2",
+            "RColorBrewer")
   ipak <- function(pkg){
     new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
     if (length(new.pkg)) 

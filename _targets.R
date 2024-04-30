@@ -131,11 +131,29 @@ list(
     )
   )
   ,
+  #### bootstrap_sex_age ####
+  tar_target(
+    bootstrap_sex_age,
+    do_bootstrap_sex_age(
+      anomaly,
+      gam_sex_age
+    )
+  )
+  ,
   #### tab_an ####
   tar_target(
     tab_an,
     do_tab_an(
       bootstrap
+    )
+  )
+  ,
+  #### tab_an_sex_age ####
+  tar_target(
+    tab_an_sex_age,
+    do_tab_an_sex_age(
+      bootstrap_sex_age,
+      gam_sex_age
     )
   )
 )
